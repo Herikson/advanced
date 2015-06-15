@@ -1,0 +1,256 @@
+html,
+body {
+    height: 100%;
+    background-color: #DEDCDD;
+}
+/****************** Begin Herikson Css Edit ****************/
+
+
+
+#creator-subheader {
+    height: auto;
+    padding-top: 15px;
+    padding-bottom:15px;
+    padding-left: 15px;
+}
+
+#creator-subheader h2 {
+    display: inline;
+    vertical-align: middle;
+    line-height: 30px;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold
+}
+
+#creator-subheader .creator-subheader-content {
+    float: left
+}
+
+#creator-subheader .creator-subheader-controls {
+    float: right
+}
+
+#creator-subheader .yt-badge-creator {
+    display: inline;
+    margin-left: 10px;
+    border: none;
+    padding: 4px 6px;
+    vertical-align: middle;
+    line-height: 60px;
+    color: #f0f0f0;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #333;
+    border-radius: 3px
+}
+
+#creator-subheader #creator-subheader-item-count {
+    line-height: 30px;
+    background-color: #666;
+    -moz-transition: background-color 1s ease;
+    -webkit-transition: background-color 1s ease;
+    transition: background-color 1s ease
+}
+
+.painel{
+    /*border:1px solid #ddd;*/
+    background-color: #FFF;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 0px 2px rgba(0, 0, 0, .2);
+          box-shadow: 0 0px 2px rgba(0, 0, 0, .2);
+    margin-top: 4px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.sub-painel{
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.title-header-all{
+    display: inline;
+    vertical-align: middle;
+    line-height: 30px;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Roboto,arial,sans-serif
+}
+.upload-footer-header{
+    color: #444;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.upload-informational-footer{
+    color:#666;
+    font-family:Roboto,arial,sans-serif;
+    text-align: left;
+    line-height: 1.5em;
+    font-size: 12px;
+}
+.upload-continue-footer-link{
+    color:#666;
+    font-family:Roboto,arial,sans-serif;
+    text-align: right;
+    line-height: 1.5em;
+    font-size: 12px;
+}
+.container2 {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container2 {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container2 {
+    width: 970px;
+  }
+}
+@media (min-width: 950px) {
+  .container2 {
+    width: 950px;
+  }
+}
+
+.logo-edit{
+    width: 100%;
+    -webkit-box-shadow: 0 0px 5px rgba(0, 0, 0, .2);
+          box-shadow: 0 0px 5px rgba(0, 0, 0, .2);
+}
+.logo-link{
+    width: 100%;
+    height: 80px;
+    -webkit-box-shadow: 0 0px 5px rgba(0, 0, 0, .2);
+          box-shadow: 0 0px 5px rgba(0, 0, 0, .2);
+}
+.title-logo-link{
+    line-height: 17px;
+    color: #333;
+    font-size: 13px;
+    vertical-align: middle;
+    font-family:Roboto,arial,sans-serif;
+}
+
+.info_perfil_pane{
+    color: #666;
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.info_perfil{
+    color: #666;
+    font-size: 11px;
+    font-weight: normal;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.has_change{
+    margin: 8px 10px;
+    color: #666;
+    font-size: 11px;
+}
+/****************** End Herikson Css Edit ****************/
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}

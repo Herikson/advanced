@@ -1,0 +1,58 @@
+{
+    "name": "yiisoft/yii2-app-advanced",
+    "description": "Yii 2 Advanced Application Template",
+    "keywords": ["yii2", "framework", "advanced", "application template"],
+    "homepage": "http://www.yiiframework.com/",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+        "forum": "http://www.yiiframework.com/forum/",
+        "wiki": "http://www.yiiframework.com/wiki/",
+        "irc": "irc://irc.freenode.net/yii",
+        "source": "https://github.com/yiisoft/yii2"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
+        "2amigos/yii2-date-picker-widget": "*",
+        "kartik-v/yii2-widget-select2": "*",
+        "wbraganca/yii2-dynamicform": "*",
+        "miloschuman/yii2-highcharts-widget": "dev-master",
+        "2amigos/yii2-google-maps-library": "*",
+        "kartik-v/yii2-grid": "*",
+        "kartik-v/yii2-krajee-base": "dev-master",
+        "kartik-v/yii2-mpdf": "dev-master",
+        "kolyunya/yii2-map-input-widget": "dev-master",
+        "2amigos/yii2-gallery-widget": "~0.1.0",
+        "fxp/composer-asset-plugin": "~1.0",
+        "yiisoft/yii2-jui": "^2.0",
+        "zxbodya/yii2-gallery-manager": "*@dev",
+        "pendalf89/yii2-tinymce": "dev-master",
+        "pendalf89/yii2-filemanager": "dev-master",
+        "host33/yii2-multilevel-vertical-menu": "dev-master",
+        "kartik-v/yii2-tabs-x": "dev-master",
+        "kartik-v/yii2-widget-activeform": "*",
+        "lajax/yii2-language-picker": "1.*",
+        "kartik-v/yii2-widget-fileinput": "*",
+        "kartik-v/yii2-widget-sidenav": "*"
+    },
+    "require-dev": {
+        "yiisoft/yii2-codeception": "*",
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
+        "yiisoft/yii2-faker": "*"
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
