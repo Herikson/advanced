@@ -33,6 +33,7 @@ $user_id=Yii::$app->user->getId();
                              'root' => $root,
                              'base_url' =>$base_url,
                              'user_id'=> $user_id,
+                             'id' => "",
                         ],
                         'maxFileCount' => 1,
                         'allowedFileExtensions'=> ["jpg", "gif", "png", "txt"],

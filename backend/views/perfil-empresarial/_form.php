@@ -7,9 +7,13 @@ use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\bootstrap\modal;
 
 use kartik\tabs\TabsX;
+use kartik\checkbox\CheckboxX;
 use kartik\select2\Select2;
+use kartik\dropdown\DropdownX;
+
 
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\InfoWindow;
@@ -35,21 +39,30 @@ if ($produtoative==0) {
 }else{
     $produtoative=true;
 }
-
+$data = [
+    "red" => "red",
+    "green" => "green",
+    "blue" => "blue",
+    "orange" => "orange",
+    "white" => "white",
+    "black" => "black",
+    "purple" => "purple",
+    "cyan" => "cyan",
+    "teal" => "teal"
+];
 
 $user_id=Yii::$app->user->getId(); 
 
 if (!is_null($model->id)){
 ?>
-
-    <div id="creator-subheader">
-        <div class"creator-subheader-content" >
-            <h2 id="creator-subheader-text" > 
-            <?= is_null($model->nome) || $model->nome=="" ? '[ Nome ]' : $model->nome ?>
-            </h2>
-        </div>
+<div id="creator-subheader">
+    <div class"creator-subheader-content" >
+        <h2 id="creator-subheader-text" > 
+        <?= is_null($model->nome) || $model->nome=="" ? '[ Nome ]' : $model->nome ?>
+        </h2>
     </div>
-    <hr>
+</div>
+<hr>
 <div class="perfil-empresarial-form sub-painel">
 
     <?php $form = ActiveForm::begin(['options' => [ 'enctype' => 'multipart/form-data'],'action'=>['perfil-empresarial/loadupdate','id'=>$model->id],'id' => 'dynamic-form']); ?>
@@ -63,7 +76,19 @@ if (!is_null($model->id)){
     <hr>
     <div class="row">
             <div class="col-lg-6">
-                <?php echo Html::img($model->logo, ['class' => 'logo-edit']); ?>
+
+                <?= Html::img($model->logo, ['value'=>url::to(['uploadlogo/editlogo','id'=>$model->id]),'class' => 'logo-edit logo-modal-edit','id'=>'modalButton']); ?>
+                <?php
+                    Modal::begin([
+                            'header'=>'<h4>Logo</h4>',
+                            'id'=>'modal',
+                            'size'=>'', 
+                        ]);
+                    echo "<div id='modalContent'></div>";
+
+                    Modal::end();
+
+                ?>
             </div>
             <div class="col-lg-6">
              <span class="info_perfil_pane">Informacoes extra:</span>
@@ -89,6 +114,15 @@ if (!is_null($model->id)){
              .Html::activeHiddenInput($model, 'produto_ative')
              .$form->field($model, 'nome')->textInput(['maxlength' => true,'placeholder'=>'Nome'])->label(false)
              .$form->field($model, 'descricao')->textarea(['rows' => 6,'placeholder'=>'Descrição'])->label(false)
+             // .$form->field($model, 'Marcacoes')->widget(Select2::classname(),[
+             //        'value' => ['red', 'green'], // initial value
+             //        'data' => $data,
+             //        'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+             //        'pluginOptions' => [
+             //            'tags' => true,
+             //            'maximumInputLength' => 10
+             //        ],
+             //    ])->label(false)
              .$form->field($model, 'Marcacoes')->textarea(['rows' => 6,'placeholder'=>'Marcações'])->label(false)
              .'  
             </div>
@@ -277,7 +311,7 @@ $('a').click(function(){
     $('#localizacao-local_ative').val(0);
     $('#perfilempresarial-produto_ative').val(1);
     }
-    
+
  });
 
 JS;
@@ -286,6 +320,7 @@ $this->registerJS($script);
 
 }else{
     //Listagem de todos os  registos:
+    $form = ActiveForm::begin(['action'=>['perfil-empresarial/editar']]);
 
     $registros = PerfilEmpresarial::find()->where(['user_id' => $user_id])->all();
 
@@ -297,10 +332,56 @@ $this->registerJS($script);
     }
     
     ?>
-    <div id="creator-subheader">
-        <div class"creator-subheader-content" >
-            <h2 id="creator-subheader-text" >Empresas</h2> 
-            <span id="creator-subheader-item-count" class="yt-badge-creator" ><?= $count_regs ?></span>
+    <div class="row">
+        <div class="col-lg-8">
+            <div id="creator-subheader">
+                <div class"creator-subheader-content" >
+                    <h2 id="creator-subheader-text" >Empresas</h2> 
+                    <span id="creator-subheader-item-count" class="yt-badge-creator" ><?= $count_regs ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-right">
+            <?= $form->field($model, 'nome', ['template' => '
+
+                       {input}
+                          <span class="input-group-addon">
+                             <span class="glyphicon glyphicon-user"></span>
+                          </span>
+                          
+                       {error}{hint}'])->textInput(['data-default' => '']) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-11">
+            <?php
+                echo Html::beginTag('div', ['class'=>'text-right dropdown']); // align right
+                echo Html::button('Accoes <span class="caret"></span></button>', 
+                    ['type'=>'button', 'class'=>'btn btn-default btn-sm', 'data-toggle'=>'dropdown']);
+                echo DropdownX::widget([
+                    'options'=>['class'=>'pull-right'], // for a right aligned dropdown menu
+                    'items' => [
+                        ['label' => 'Carregar', 'url' => 'index.php?r=uploadlogo/index'],
+                        ['label' => 'Submenu 1', 'items' => [
+                            ['label' => 'Action', 'url' => '#'],
+                            ['label' => 'Another action', 'url' => '#'],
+                            ['label' => 'Something else here', 'url' => '#'],
+                            '<li class="divider"></li>',
+                            ['label' => 'Submenu 2', 'items' => [
+                                ['label' => 'Action', 'url' => '#'],
+                                ['label' => 'Another action', 'url' => '#'],
+                                ['label' => 'Something else here', 'url' => '#'],
+                                '<li class="divider"></li>',
+                                ['label' => 'Separated link', 'url' => '#'],
+                            ]],
+                        ]],
+                        ['label' => 'Eliminar', 'url' => '#submit'],
+                        '<li class="divider"></li>',
+                        ['label' => 'Separated link', 'url' => '#'],
+                    ],
+                ]); 
+                echo Html::endTag('div');
+            ?>
         </div>
     </div>
     <hr>
@@ -312,7 +393,7 @@ $this->registerJS($script);
         ?>
         <div class="row">
             <div class="col-lg-2">
-        <a href="<?= Url::to(['perfil-empresarial/loadupdate','id'=>$value['id']]) ?>"> 
+        
         <?php
         echo Html::img($value['logo'],['class' => 'logo-link']);
 
@@ -323,12 +404,14 @@ $this->registerJS($script);
         $hora = date_format($date, 'H:i');
 
         ?>
-        </a>
+        
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-8">
                 <div class="row">
                     <div class="col-md-5 title-logo-link">
+                        <a href="<?= Url::to(['perfil-empresarial/loadupdate','id'=>$value['id']]) ?>"> 
                     <?= $value['nome'] ?>
+                    </a>
                     </div>
                 </div>
                 <div class="row">
@@ -336,13 +419,41 @@ $this->registerJS($script);
                         <?= $dia." de ".$mes." de ".$ano."  ".$hora ?>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-5 info_perfil">
+                        <?= Html::a('Editar', ['perfil-empresarial/loadupdate','id'=>$value['id']], ['class'=>'btn btn-default btn-xs']) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 text-right">
+                
+                <?= $form->field($model, "[{$key}]check")->widget(CheckboxX::classname(), ['value'=>true,'pluginOptions'=>['threeState'=>false]])->label(false);?>
+                <?= Html::activeHiddenInput($model, "[{$key}]id_delete", ['value' => $value['id']]) ?>
             </div>
         </div>
     </br>
 
 <?php
-    }
 
+    }
+ActiveForm::end();
+
+$script = <<< JS
+
+$('a').click(function(){
+
+    var action=$(this).attr('href');
+
+    if (action=='#submit'){
+    $("form").submit();
+    }
+    
+ });
+
+JS;
+
+$this->registerJS($script);
 }
 ?>
+
     </div>

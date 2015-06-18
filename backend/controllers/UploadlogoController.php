@@ -21,6 +21,10 @@ class UploadlogoController extends \yii\web\Controller
     // get the files posted
     $images = $_FILES['images'];
     $user_id= $_POST['user_id'];
+
+    $id= $_POST['id']; 
+
+    
     // get user id posted
     // $userid = empty($_POST['userid']) ? '' : $_POST['userid'];
 
@@ -44,7 +48,7 @@ class UploadlogoController extends \yii\web\Controller
 
         if(move_uploaded_file($images['tmp_name'][$i], $target_path)) {
             $success = true;
-            $paths[] = $target_path;
+            $paths[] = $target_path; 
             
         }else{
             $success = false;
@@ -59,10 +63,13 @@ class UploadlogoController extends \yii\web\Controller
     if ($success === true){
         // Guardar dados na database:
 
-        if (($model_user_perfil= UserPerfilEmpresarial::findOne($user_id)) !== null) {
+        if (!empty($id) || ($model_user_perfil= UserPerfilEmpresarial::findOne($user_id)) !== null) {
             
+            if (!empty($id)){
+            $model= PerfilEmpresarial::findOne($id);
+            }else{
             $model= PerfilEmpresarial::findOne($model_user_perfil->perfil_empresarial_id);
-
+            }
             $paths_db[] = $model->logo_rooturl;
             //Elimina os ficheiros anteriormente guardados:
             foreach ($paths_db as $file) 
@@ -73,6 +80,7 @@ class UploadlogoController extends \yii\web\Controller
             $model->save();
 
         }else{
+
             $model = new PerfilEmpresarial();
             //Upload pela primeira vez:
             $model->logo=$base_url;
@@ -114,9 +122,17 @@ class UploadlogoController extends \yii\web\Controller
 
     }
 
+
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionEditlogo($id)
+    {
+        $model = PerfilEmpresarial::findOne($id);
+
+        return $this->renderAjax('editlogo',['model'=>$model]);
     }
 
 }

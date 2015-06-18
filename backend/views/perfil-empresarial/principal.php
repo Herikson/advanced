@@ -18,7 +18,10 @@ use backend\models\PerfilEmpresarial;
 //         //'linkOptions'=>['data-url'=>Url::to(['/index/Form'])]
 //     ],
 // ];
+
+
 ?>
+
 <div class="row">
     <div class="col-md-2">
         <?php
@@ -74,3 +77,4 @@ use backend\models\PerfilEmpresarial;
     </div>
     </div>
 </div>
+

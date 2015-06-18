@@ -35,6 +35,9 @@ class PerfilEmpresarial extends \yii\db\ActiveRecord
      */
     public $perfil_ative;
     public $produto_ative;
+    public $imagem;
+    public $id_delete;
+    public $check;
 
     public static function tableName()
     {
@@ -53,6 +56,9 @@ class PerfilEmpresarial extends \yii\db\ActiveRecord
             [['Data_criacao'], 'safe'],
             ['perfil_ative','boolean'],
             ['produto_ative','boolean'],
+            ['imagem','string'],
+            ['id_delete','integer'],
+            ['check','integer'],
             [['nome'], 'string', 'max' => 200],
             [['tipo', 'site_url'], 'string', 'max' => 500],
             [['logo', 'logo_rooturl'], 'string', 'max' => 2000],

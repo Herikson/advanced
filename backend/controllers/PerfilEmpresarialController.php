@@ -85,6 +85,55 @@ class PerfilEmpresarialController extends Controller
      * @param integer $id
      * @return mixed
      */
+
+    public function actionEditar()
+    {
+        $model = [new PerfilEmpresarial()];
+
+    
+        $model = Model::createMultiple(PerfilEmpresarial::classname(), $model);
+        Model::loadMultiple($model, Yii::$app->request->post());
+
+        // print_r($model);
+        foreach($model as $i=>$md):
+            if ($model[$i]['check']==1){
+
+                $id=$model[$i]['id_delete'];
+                $model_del = PerfilEmpresarial::findOne($id);
+                $localizacao = Localizacao::findOne(['perfil_empresarial_id'=>$id]);
+                $contato = Contato::findOne(['perfil_empresarial_id'=>$id]);
+                $produtos = Produtos::findOne(['perfil_empresarial_id'=>$id]);
+
+                if (!is_null($localizacao)){
+                    $localizacao->delete();
+                }
+                if (!is_null($contato)){
+                    $contato->delete();
+                }
+                if (!is_null($produtos)){
+                     $produtos->deleteAll('perfil_empresarial_id='.$id);
+                }
+
+                $model_del->delete();
+            }
+        endforeach;
+
+        $model = new PerfilEmpresarial();
+        $localizacao = new Localizacao();
+        $contato = new Contato();
+        $produtos = [new Produtos];
+
+        return $this->render('principal', [ 
+                'model' => $model, 
+                'localizacao' =>$localizacao,
+                'contato' =>$contato,
+                'produtos' => $produtos,
+                'perfilative' =>$model->perfil_ative, 
+                'localative' =>$localizacao->local_ative, 
+                'produtoative' =>$model->produto_ative, 
+            ]);
+    } 
+
     public function actionLoadupdate($id=null)
     { 
         
@@ -123,7 +172,6 @@ class PerfilEmpresarialController extends Controller
             
         }
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             if ($localizacao->load(Yii::$app->request->post())) {
@@ -137,36 +185,49 @@ class PerfilEmpresarialController extends Controller
             //if ($produtos->load(Yii::$app->request->post())) {
                 
                 $oldIDs = ArrayHelper::map($produtos, 'id', 'id');
+                $oldImages = ArrayHelper::map($produtos, 'imagem', 'imagem');
                 $produtos = Model::createMultiple(Produtos::classname(), $produtos);
                 Model::loadMultiple($produtos, Yii::$app->request->post());
 
                 $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($produtos, 'id', 'id')));
 
                 foreach($produtos as $i=>$produto):
-                    $file[$i]=  UploadedFile::getInstanceByName("Produtos[".$i."][imagem]");
-                    if($file[$i]){
-                        $ext = end((explode(".", $file[$i]->name)));
+
+                    $files[$i]=  UploadedFile::getInstanceByName("Produtos[".$i."][imagem]");
+
+                    if($files[$i]){
+                        $ext = end((explode(".", $files[$i]->name)));
                         // generate a unique file name
 
-                        $produtos[$i]->imagem= 'file1'.".{$ext}";
-                        $path[$i]= Yii::getAlias ('@webroot') ."/Uploads/Produtos/". $produtos[$i]->imagem;
+                        $produtos[$i]->imagem= "/Uploads/Produtos/" . md5(uniqid()) .".{$ext}";
+                        $paths[$i]= Yii::getAlias ('@webroot') .$produtos[$i]->imagem;
                     }   
                 endforeach;
-                // print_r($produtos->getErrors());
-                // die;
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($produtos) && $valid;
+                /*
+                $paths_db[] = $model->logo_rooturl;
+                //Elimina os ficheiros anteriormente guardados:
+                foreach ($paths_db as $file) 
+                    unlink($file);
+                */
 
-                if ($valid) {
+                //$valid = $model->validate();
+                //$valid = Model::validateMultiple($produtos) && $valid;
 
+                //if ($valid) {
                     $transaction = \Yii::$app->db->beginTransaction();
                     try {
                         if ($flag = $model->save(false)) {
                  
                             if (! empty($deletedIDs)) {
-                                Produtos::deleteAll(['id' => $deletedIDs]);
+                                Produtos::deleteAll(['id' => $deletedIDs]);                                
                             }
 
+                            $prod_imgs_delete = Produtos::findAll(['perfil_empresarial_id'=>$model->id]);
+                            foreach ($prod_imgs_delete as $prod_img_delete){
+                                if (!empty($prod_img_delete->imagem)){
+                                unlink(Yii::getAlias ('@webroot').$prod_img_delete->imagem);
+                                }
+                            }
                             foreach ($produtos as $produto) {
                     
 
@@ -176,10 +237,13 @@ class PerfilEmpresarialController extends Controller
                                     $transaction->rollBack();
                                     break;
                                 }else{
-                                    if($file[$i]){
-                                        $file[$i]->saveAs($path[$i]);
-                                        //$image = Yii::$app->image->load($path[$i]);
-                                        //$image->resize($size[$i]->width,$size[$i]->height)->save($path[$i]);
+                                    if($files[$i]){
+                                        $y=0;
+                                        foreach ($paths as $path) {
+
+                                            $files[$y]->saveAs($paths[$y]);
+                                            $y++;
+                                        }
                                     }
                                 }
                             }
@@ -190,7 +254,7 @@ class PerfilEmpresarialController extends Controller
                     } catch (Exception $e) {
                         $transaction->rollBack();
                     }
-                }
+                //}
             //}
 
 
